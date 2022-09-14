@@ -1,10 +1,13 @@
 package binding;
 
-import org.apache.ibatis.session.SqlSession;
+import sqlsession.SqlSession;
 
 import java.lang.reflect.Proxy;
 import java.util.Map;
 
+/**
+ * @author wangyuhao
+ */
 public class MapperProxyFactory<T> {
     private Class<T> mapperInterface;
 
@@ -12,7 +15,7 @@ public class MapperProxyFactory<T> {
         this.mapperInterface = mapperInterface;
     }
 
-    public T newInstance(Map<String,String> sqlSession){
+    public T newInstance(SqlSession sqlSession){
         //生成代理类对象
         MapperProxy<T> mapperProxy = new MapperProxy<>(sqlSession,mapperInterface);
         //生成Mapper接口的代理对象

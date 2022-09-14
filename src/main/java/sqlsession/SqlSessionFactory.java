@@ -1,4 +1,5 @@
 package sqlsession;
+;
 
 /**
  * @author wangyuhao
@@ -6,4 +7,10 @@ package sqlsession;
  * 不用建造者SqlSessionFactoryBuilder了
  */
 public interface SqlSessionFactory {
+
+    /**
+     *
+     * @return
+     */
+    SqlSession openSession();
 }

@@ -18,7 +18,7 @@ public class SqlSessionFactoryBuilder {
      * @param inputStream
      * @return
      */
-    public SqlSessionFactory build(InputStream inputStream){
-        return new DeafaultSqlSession();
-    }
+//    public SqlSessionFactory build(InputStream inputStream){
+//        return new DefaultSqlSessionFactory();
+//    }
 }

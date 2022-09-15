@@ -13,7 +13,6 @@ import java.util.Properties;
  * Mybatis配置类
  */
 @Data
-@AllArgsConstructor
 public class Configuration {
     /**
      * properties标签属性
@@ -22,6 +21,14 @@ public class Configuration {
     /**
      * MappedStatement集合，存放xml中的信息
      */
-    protected final Map<String, MappedStatement> mappedStatements;
+    protected Map<String, MappedStatement> mappedStatements;
 
+    public Configuration(Properties variables, Map<String, MappedStatement> mappedStatements) {
+        this.variables = variables;
+        this.mappedStatements = mappedStatements;
+    }
+
+    public Configuration() {
+
+    }
 }

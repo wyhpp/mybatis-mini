@@ -32,6 +32,11 @@ public class MapperRegistry {
         return mapperProxyFactory.newInstance(sqlSession);
     }
 
+    /**
+     * 添加单接口映射
+     * @param type
+     * @param <T>
+     */
     public <T> void addMap(Class<T> type){
         //mapper必须是接口
         if(type.isInterface()){
@@ -47,6 +52,10 @@ public class MapperRegistry {
         return this.knownMappers.containsKey(type);
     }
 
+    /**
+     * 添加包目录下所有接口的映射
+     * @param packageName
+     */
     public void addMappers(String packageName) {
         Set<Class<?>> mapperSet = ClassScanner.scanPackage(packageName);
         for (Class<?> mapperClass : mapperSet) {

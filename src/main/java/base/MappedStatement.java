@@ -2,6 +2,9 @@ package base;
 
 import lombok.Data;
 
+/**
+ * @author wangyuhao
+ */
 @Data
 public class MappedStatement {
 

@@ -1,6 +1,10 @@
 package sqlsession;
 
+import config.Configuration;
+import config.XMLConfigBuilder;
+
 import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * @author wangyuhao
@@ -21,4 +25,13 @@ public class SqlSessionFactoryBuilder {
 //    public SqlSessionFactory build(InputStream inputStream){
 //        return new DefaultSqlSessionFactory();
 //    }
+
+    public SqlSessionFactory build(Reader reader) {
+        XMLConfigBuilder xmlConfigBuilder = new XMLConfigBuilder(reader);
+        return build(xmlConfigBuilder.parse());
+    }
+
+    public SqlSessionFactory build(Configuration config) {
+        return new DefaultSqlSessionFactory(config);
+    }
 }

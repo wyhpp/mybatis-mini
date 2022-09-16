@@ -32,7 +32,12 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
 
     public Configuration parse(){
-
+        try {
+            mapperElement(root.element("mappers"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
+        }
+        return configuration;
     }
 
     /**
@@ -40,7 +45,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      * 标签下有mapper,package两种子标签
      * @param mappers
      */
-    private void mapperElement(Element mappers) throws ClassNotFoundException {
+    private void mapperElement(Element mappers) throws Exception {
         List<Element> mapperList = mappers.elements("mapper");
         String resource;
         String url;
@@ -58,7 +63,7 @@ public class XMLConfigBuilder extends BaseBuilder {
                 url = element.attribute("url").getText();
                 mapperClass = element.attribute("class").getText();
                 if (resource != null && url == null && mapperClass == null) {
-                    //classPath相对路径资源，跳过
+                    //classPath相对路径资源，解析xml生成mappedStatement
                     continue;
                 } else if (resource == null && url != null && mapperClass == null) {
                     //网络资源，先跳过
@@ -67,6 +72,7 @@ public class XMLConfigBuilder extends BaseBuilder {
                     if (resource != null || url != null || mapperClass == null) {
                         throw new RuntimeException("A mapper element may only specify a url, resource or class, but not more than one.");
                     }
+                    //mapperClass != null
                     //注册mapper映射器
                     Class<?> mapperInterface = Class.forName(mapperClass);
                     this.configuration.addMapper(mapperInterface);
@@ -74,7 +80,6 @@ public class XMLConfigBuilder extends BaseBuilder {
             }
             //添加解析sql
             configuration.addMappedStatement(statement);
-
         }
 
     }

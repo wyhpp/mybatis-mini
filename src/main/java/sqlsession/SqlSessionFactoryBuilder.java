@@ -17,11 +17,11 @@ public class SqlSessionFactoryBuilder {
 
     }
 
-    /**
-     * 根据config.xml获取配置信息
-     * @param inputStream
-     * @return
-     */
+//    /**
+//     * 根据config.xml获取配置信息
+//     * @param inputStream
+//     * @return
+//     */
 //    public SqlSessionFactory build(InputStream inputStream){
 //        return new DefaultSqlSessionFactory();
 //    }

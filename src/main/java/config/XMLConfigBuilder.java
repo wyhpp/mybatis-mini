@@ -4,11 +4,13 @@ import base.MappedStatement;
 import builder.BaseBuilder;
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
 import org.apache.ibatis.io.Resources;
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import java.io.InputStream;
 import java.io.Reader;
 import java.util.List;
 
@@ -37,34 +39,49 @@ public class XMLConfigBuilder extends BaseBuilder {
         } catch (Exception e) {
             throw new RuntimeException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
         }
-        return configuration;
+        return this.configuration;
     }
 
     /**
+     * 根据mybatis-config内的mapper标签下的类名找到对应的mapper文件，
+     * 然后再解析mapper中的诸如namespace,select标签等
      * 解析mappers标签
      * 标签下有mapper,package两种子标签
      * @param mappers
      */
     private void mapperElement(Element mappers) throws Exception {
         List<Element> mapperList = mappers.elements("mapper");
-        String resource;
-        String url;
-        String mapperClass;
+
         for (Element element : mapperList) {
+            String resource = null;
+            String url = null;
+            String mapperClass = null;
             //解析处理,获取sql对应的mappedStatement
-            MappedStatement statement = new MappedStatement();
             if ("package".equals(element.getName())){
                 //获取package节点下name属性的值=（要扫描的包名）
                 resource = element.attribute("name").getText();
-                configuration.addMappers(resource);
+                this.configuration.addMappers(resource);
             }else{
                 //获取节点下的属性值
-                resource = element.attribute("resource").getText();
-                url = element.attribute("url").getText();
-                mapperClass = element.attribute("class").getText();
+                Attribute attribute;
+                if((attribute = element.attribute("resource")) != null){
+                    resource = attribute.getText();
+                }
+                if((attribute = element.attribute("url")) != null){
+                    url = attribute.getText();
+                }
+                if((attribute = element.attribute("class")) != null){
+                    mapperClass = attribute.getText();
+                }
                 if (resource != null && url == null && mapperClass == null) {
                     //classPath相对路径资源，解析xml生成mappedStatement
-                    continue;
+                    InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+                    SAXReader reader = new SAXReader();
+                    XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(this.configuration, reader.read(resourceAsStream));
+                    mapperBuilder.parse();
+                    for (MappedStatement mappedStatement : mapperBuilder.getMappedStatementList()) {
+                        this.configuration.addMappedStatement(mappedStatement);
+                    }
                 } else if (resource == null && url != null && mapperClass == null) {
                     //网络资源，先跳过
                     continue;
@@ -78,8 +95,6 @@ public class XMLConfigBuilder extends BaseBuilder {
                     this.configuration.addMapper(mapperInterface);
                 }
             }
-            //添加解析sql
-            configuration.addMappedStatement(statement);
         }
 
     }

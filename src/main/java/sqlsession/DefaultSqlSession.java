@@ -1,18 +1,19 @@
 package sqlsession;
 
-import binding.MapperRegistry;
+import base.MappedStatement;
+import config.Configuration;
 
 /**
  * @author wangyuhao
  */
 public class DefaultSqlSession implements SqlSession{
     /**
-     * 映射器
+     * 配置类
      */
-    private MapperRegistry mapperRegistry;
+    private Configuration configuration;
 
-    public DefaultSqlSession(MapperRegistry mapperRegistry) {
-        this.mapperRegistry = mapperRegistry;
+    public DefaultSqlSession(Configuration configuration) {
+        this.configuration = configuration;
     }
 
     @Override
@@ -21,12 +22,13 @@ public class DefaultSqlSession implements SqlSession{
     }
 
     @Override
-    public <T> T selectOne(String statement, Object param) {
-        return (T) ("你被代理了！" + "方法：" + statement + " 入参：" + param);
+    public <T> T selectOne(String statement, Object... param) {
+        MappedStatement mappedStatement = this.configuration.getMappedStatement(statement);
+        return (T) ("你被代理了！" + "\n方法：" + statement + "\n入参：" + param[0].toString() + "\n待执行sql:" + mappedStatement.getSql());
     }
 
     @Override
     public <T> T getMapper(Class<T> type) {
-        return mapperRegistry.getMap(type,this);
+        return this.configuration.getMap(type,this);
     }
 }

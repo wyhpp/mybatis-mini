@@ -11,11 +11,6 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory{
 
     private Configuration configuration;
 
-    private MapperRegistry mapperRegistry;
-
-    public DefaultSqlSessionFactory(MapperRegistry mapperRegistry) {
-        this.mapperRegistry = mapperRegistry;
-    }
 
     public DefaultSqlSessionFactory(Configuration configuration) {
         this.configuration = configuration;
@@ -23,6 +18,6 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory{
 
     @Override
     public SqlSession openSession() {
-        return new DefaultSqlSession(mapperRegistry);
+        return new DefaultSqlSession(this.configuration);
     }
 }

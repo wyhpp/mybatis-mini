@@ -18,12 +18,12 @@ public class MappedStatement {
 
     private String resultMap;
 
-    private SqlCommondType commandType;
+    private SqlCommandType commandType;
 
     public static class Builder {
         private MappedStatement mappedStatement = new MappedStatement();
 
-        public Builder(String id, String sql, SqlCommondType commandType) {
+        public Builder(String id, String sql, SqlCommandType commandType) {
             this.mappedStatement.id = id;
             this.mappedStatement.sql = sql;
             this.mappedStatement.commandType = commandType;

@@ -3,16 +3,21 @@ package config;
 import base.MappedStatement;
 import builder.BaseBuilder;
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
+import dataSource.DataSourceFactory;
+import mapping.Environment;
 import org.apache.ibatis.io.Resources;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import transaction.TransactionFactory;
 
+import javax.sql.DataSource;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author wangyuhao
@@ -35,6 +40,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
     public Configuration parse(){
         try {
+            environmentElement(root.element("environments"));
             mapperElement(root.element("mappers"));
         } catch (Exception e) {
             throw new RuntimeException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
@@ -94,6 +100,40 @@ public class XMLConfigBuilder extends BaseBuilder {
                     Class<?> mapperInterface = Class.forName(mapperClass);
                     this.configuration.addMapper(mapperInterface);
                 }
+            }
+        }
+
+    }
+
+    /**
+     * 解析environments节点
+     * 标签下有mapper,package两种子标签
+     * @param environments
+     */
+    private void environmentElement(Element environments) throws Exception {
+        String environment = environments.attributeValue("default");
+        List<Element> environmentList = environments.elements("environment");
+
+        for (Element env : environmentList) {
+            String id = env.attributeValue("id");
+            if (environment.equals(id)) {
+                // 事务管理器
+                TransactionFactory txFactory = (TransactionFactory) typeAliasRegistry.resolveAlias(env.element("transactionManager").attributeValue("type")).newInstance();
+                // 数据源
+                Element dataSourceElement = env.element("dataSource");
+                DataSourceFactory dataSourceFactory = (DataSourceFactory) typeAliasRegistry.resolveAlias(dataSourceElement.attributeValue("type")).newInstance();
+                List<Element> propertyList = dataSourceElement.elements("property");
+                Properties props = new Properties();
+                for (Element property : propertyList) {
+                    props.setProperty(property.attributeValue("name"), property.attributeValue("value"));
+                }
+                dataSourceFactory.setProperties(props);
+                DataSource dataSource = dataSourceFactory.getDataSource();
+                // 构建环境
+                Environment.Builder environmentBuilder = new Environment.Builder(id)
+                        .transactionFactory(txFactory)
+                        .dataSource(dataSource);
+                configuration.setEnvironment(environmentBuilder.build());
             }
         }
 

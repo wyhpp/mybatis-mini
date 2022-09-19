@@ -16,6 +16,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class MapperProxyTest {
+    /**
+     * 第二次
+     */
     @Test
     public void mapperProxyTest() {
         MapperProxyFactory<IUserDao> factory = new MapperProxyFactory<>(IUserDao.class);
@@ -29,6 +32,9 @@ public class MapperProxyTest {
 //        System.out.println("测试结果" + res);
     }
 
+    /**
+     * 第三次
+     */
     @Test
     public void mapperTest(){
 //        // 1. 注册 Mapper
@@ -47,7 +53,10 @@ public class MapperProxyTest {
 //        System.out.println("测试结果" + res);
     }
 
-
+    /**
+     * 第4次
+     * @throws IOException
+     */
     @Test
     public void test_SqlSessionFactory() throws IOException {
         Logger logger = Logger.getLogger("testLog");

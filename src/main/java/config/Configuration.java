@@ -2,7 +2,12 @@ package config;
 
 import binding.MapperRegistry;
 import base.MappedStatement;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+import lombok.Data;
+import mapping.Environment;
 import sqlsession.SqlSession;
+import transaction.jdbcTransaction.JdbcTransactionFactory;
+import type.TypeAliasRegistry;
 
 
 import java.util.HashMap;
@@ -13,6 +18,7 @@ import java.util.Properties;
  * @author wangyuhao
  * Mybatis配置类
  */
+@Data
 public class Configuration {
     /**
      * properties标签属性
@@ -26,16 +32,27 @@ public class Configuration {
      * mapper映射器
      */
     protected MapperRegistry mapperRegistry;
+    /**
+     * 类型别名注册器
+     */
+    protected final TypeAliasRegistry typeAliasRegistry;
+
+    protected Environment environment;
 
     public Configuration(Properties variables, Map<String, MappedStatement> mappedStatements, MapperRegistry mapperRegistry) {
         this.variables = variables;
         this.mappedStatements = mappedStatements;
         this.mapperRegistry = mapperRegistry;
+        this.typeAliasRegistry = new TypeAliasRegistry();
     }
 
     public Configuration() {
         this.mapperRegistry = new MapperRegistry();
         this.mappedStatements = new HashMap<>();
+        this.typeAliasRegistry = new TypeAliasRegistry();
+        //注册事务类型和对应的类
+        typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
+        typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
     }
 
     public void addMappedStatement(MappedStatement mappedStatement){

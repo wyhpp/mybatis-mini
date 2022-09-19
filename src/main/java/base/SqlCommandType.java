@@ -4,13 +4,13 @@ package base;
  * @author wangyuhao
  */
 
-public enum SqlCommondType {
+public enum SqlCommandType {
     SELECT,
     UPDATE,
     INSERT,
     DELETE,
     UNKOWN;
 
-    SqlCommondType() {
+    SqlCommandType() {
     }
 }

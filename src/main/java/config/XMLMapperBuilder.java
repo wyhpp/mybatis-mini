@@ -1,7 +1,7 @@
 package config;
 
 import base.MappedStatement;
-import base.SqlCommondType;
+import base.SqlCommandType;
 import builder.BaseBuilder;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -60,7 +60,7 @@ public class XMLMapperBuilder extends BaseBuilder {
             String resultType = next.attribute("resultType").getData().toString();
 //            String resultMap = next.attribute("resultMap").toString();
             String parameterType = next.attribute("parameterType").toString();
-            SqlCommondType sqlCommandType = SqlCommondType.valueOf(next.getName().toUpperCase(Locale.ENGLISH));
+            SqlCommandType sqlCommandType = SqlCommandType.valueOf(next.getName().toUpperCase(Locale.ENGLISH));
             String sql = next.getData().toString();
             MappedStatement.Builder builder = new MappedStatement.Builder(namespace + "." + id,sql,sqlCommandType);
             MappedStatement mappedStatement = builder.build();

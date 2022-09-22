@@ -109,6 +109,17 @@ public class XMLConfigBuilder extends BaseBuilder {
      * 解析environments节点
      * 标签下有mapper,package两种子标签
      * @param environments
+     * <environments default="development">
+     *         <environment id="development">
+     *             <transactionManager type="JDBC" />
+     *             <dataSource type="POOLED">
+     *                 <property name="driver" value="${jdbc.driverClassName}" />
+     *                 <property name="url" value="${jdbc.url}" />
+     *                 <property name="username" value="${jdbc.username}" />
+     *                 <property name="password" value="${jdbc.password}" />
+     *              </dataSource>
+     *         </environment>
+     * </environments>
      */
     private void environmentElement(Element environments) throws Exception {
         String environment = environments.attributeValue("default");

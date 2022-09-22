@@ -15,6 +15,7 @@ import java.util.List;
  * 3.执行操作
  * 4.释放连接
  * 5.返回结果
+ * @author wangyuhao
  * @param <T>
  */
 public class MyJDBCTemplate<T> {

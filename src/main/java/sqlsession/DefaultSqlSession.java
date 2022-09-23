@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author wangyuhao
@@ -18,6 +19,8 @@ public class DefaultSqlSession implements SqlSession{
      * 配置类
      */
     private Configuration configuration;
+
+    private Logger logger = Logger.getLogger("DefaultSqlSession");
 
     public DefaultSqlSession(Configuration configuration) {
         this.configuration = configuration;
@@ -36,6 +39,7 @@ public class DefaultSqlSession implements SqlSession{
 
         try {
             Connection connection = environment.getDataSource().getConnection();
+            logger.info("获取connection，name is:"+ connection);
             BoundSql boundSql = mappedStatement.getBoundSql();
             PreparedStatement preparedStatement = connection.prepareStatement(boundSql.getSql());
             preparedStatement.setLong(1, Long.parseLong(((Object[]) param)[0].toString()));

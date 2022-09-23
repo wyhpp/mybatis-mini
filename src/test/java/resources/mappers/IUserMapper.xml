@@ -1,9 +1,9 @@
 <mapper namespace="Dao.IUserDao">
 
-    <select id="queryUserInfoById" parameterType="java.lang.Long" resultType="cn.bugstack.mybatis.test.po.User">
-        SELECT id, userId, userHead, createTime
+    <select id="queryUserInfoById" parameterType="java.lang.Long" resultType="pojo.User">
+        SELECT id, userId, userHead, userName
         FROM user
-        where id = #{Uid}
+        where id = ?
     </select>
 
 </mapper>

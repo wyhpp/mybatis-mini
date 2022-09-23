@@ -1,9 +1,12 @@
 package dataSource.druid;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import dataSource.DataSourceFactory;
+import org.apache.ibatis.datasource.DataSourceFactory;
 
+import javax.naming.Context;
+import javax.naming.Name;
 import javax.sql.DataSource;
+import java.util.Hashtable;
 import java.util.Properties;
 
 /**

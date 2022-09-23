@@ -4,6 +4,7 @@ import binding.MapperProxyFactory;
 import binding.MapperRegistry;
 import org.apache.ibatis.io.Resources;
 import org.junit.Test;
+import pojo.User;
 import sqlsession.DefaultSqlSessionFactory;
 import sqlsession.SqlSession;
 import sqlsession.SqlSessionFactory;
@@ -54,7 +55,7 @@ public class MapperProxyTest {
     }
 
     /**
-     * 第4次
+     * 第4，5次
      * @throws IOException
      */
     @Test
@@ -69,8 +70,30 @@ public class MapperProxyTest {
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
 
         // 3. 测试验证
-        String res = userDao.queryUserInfoById("10001");
-        logger.info("测试结果:" + res);
+        User user = userDao.queryUserInfoById(1L);
+        logger.info("测试结果:" + user.toString());
 
+    }
+
+    /**
+     * 第6次
+     * @throws IOException
+     */
+    @Test
+    public void test_Datasource() throws IOException {
+        Logger logger = Logger.getLogger("testLog");
+        // 1. 从SqlSessionFactory中获取SqlSession
+        Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        // 2. 获取映射器对象
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+
+        // 3. 测试验证
+        for (int i = 0; i < 50; i++) {
+            User user = userDao.queryUserInfoById(1L);
+            logger.info("测试结果:" + user.toString());
+        }
     }
 }

@@ -2,7 +2,9 @@ package config;
 
 import binding.MapperRegistry;
 import base.MappedStatement;
-import com.alibaba.druid.pool.DruidDataSourceFactory;
+import dataSource.druid.DruidDataSourceFactory;
+import dataSource.unpooled.UnpooledDataSource;
+import dataSource.unpooled.UnpooledDataSourceFactory;
 import lombok.Data;
 import mapping.Environment;
 import sqlsession.SqlSession;
@@ -53,6 +55,7 @@ public class Configuration {
         //注册事务类型和对应的类
         typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
         typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
+        typeAliasRegistry.registerAlias("UNPOOLED", UnpooledDataSourceFactory.class);
     }
 
     public void addMappedStatement(MappedStatement mappedStatement){

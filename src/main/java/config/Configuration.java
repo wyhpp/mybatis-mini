@@ -5,9 +5,12 @@ import base.MappedStatement;
 import dataSource.druid.DruidDataSourceFactory;
 import dataSource.unpooled.UnpooledDataSource;
 import dataSource.unpooled.UnpooledDataSourceFactory;
+import executor.Executor;
+import executor.SimpleExecutor;
 import lombok.Data;
 import mapping.Environment;
 import sqlsession.SqlSession;
+import transaction.Transaction;
 import transaction.jdbcTransaction.JdbcTransactionFactory;
 import type.TypeAliasRegistry;
 
@@ -38,6 +41,10 @@ public class Configuration {
      * 类型别名注册器
      */
     protected final TypeAliasRegistry typeAliasRegistry;
+    /**
+     * 默认执行器类型
+     */
+    protected String defaultExecutorType;
 
     protected Environment environment;
 
@@ -52,6 +59,7 @@ public class Configuration {
         this.mapperRegistry = new MapperRegistry();
         this.mappedStatements = new HashMap<>();
         this.typeAliasRegistry = new TypeAliasRegistry();
+        this.defaultExecutorType = "simple";
         //注册事务类型和对应的类
         typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
         typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
@@ -81,5 +89,20 @@ public class Configuration {
      */
     public MappedStatement getMappedStatement(String id) {
         return this.mappedStatements.get(id);
+    }
+
+    /**
+     * 新建一个Executor
+     * @return
+     */
+    public Executor newExecutor(String executorType, Transaction transaction){
+        executorType=executorType==null? this.defaultExecutorType : executorType;
+        executorType=executorType==null? "simple" : executorType;
+
+        Executor executor = null;
+        if("simple".equals(executorType)){
+            executor = new SimpleExecutor(this,transaction);
+        }
+        return executor;
     }
 }

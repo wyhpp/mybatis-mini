@@ -2,6 +2,7 @@ package sqlsession;
 
 import base.MappedStatement;
 import config.Configuration;
+import executor.Executor;
 import mapping.BoundSql;
 import mapping.Environment;
 
@@ -21,9 +22,14 @@ public class DefaultSqlSession implements SqlSession{
     private Configuration configuration;
 
     private Logger logger = Logger.getLogger("DefaultSqlSession");
+    /**
+     * 执行器
+     */
+    private Executor executor;
 
-    public DefaultSqlSession(Configuration configuration) {
+    public DefaultSqlSession(Configuration configuration, Executor executor) {
         this.configuration = configuration;
+        this.executor = executor;
     }
 
     @Override
@@ -35,21 +41,23 @@ public class DefaultSqlSession implements SqlSession{
     public <T> T selectOne(String statement, Object... param) {
         MappedStatement mappedStatement = this.configuration.getMappedStatement(statement);
 //        return (T) ("你被代理了！" + "\n方法：" + statement + "\n入参：" + param[0].toString() + "\n待执行sql:" + mappedStatement.getSql());
-        Environment environment = configuration.getEnvironment();
 
-        try {
-            Connection connection = environment.getDataSource().getConnection();
-            logger.info("获取connection，name is:"+ connection);
-            BoundSql boundSql = mappedStatement.getBoundSql();
-            PreparedStatement preparedStatement = connection.prepareStatement(boundSql.getSql());
-            preparedStatement.setLong(1, Long.parseLong(((Object[]) param)[0].toString()));
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            List<T> objList = (List<T>) parseResultSetToBean(resultSet, Class.forName(boundSql.getResultType()));
-            return objList.get(0);
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchFieldException exception) {
-            exception.printStackTrace();
-        }
+        executor.query(mappedStatement,param,mappedStatement.getBoundSql());
+//        //交给执行器去做
+//        Environment environment = configuration.getEnvironment();
+//        try {
+//            Connection connection = environment.getDataSource().getConnection();
+//            logger.info("获取connection，name is:"+ connection);
+//            BoundSql boundSql = mappedStatement.getBoundSql();
+//            PreparedStatement preparedStatement = connection.prepareStatement(boundSql.getSql());
+//            preparedStatement.setLong(1, Long.parseLong(((Object[]) param)[0].toString()));
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//
+//            List<T> objList = (List<T>) parseResultSetToBean(resultSet, Class.forName(boundSql.getResultType()));
+//            return objList.get(0);
+//        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchFieldException exception) {
+//            exception.printStackTrace();
+//        }
         return null;
     }
 

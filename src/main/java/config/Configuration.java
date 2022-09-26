@@ -7,7 +7,11 @@ import dataSource.unpooled.UnpooledDataSource;
 import dataSource.unpooled.UnpooledDataSourceFactory;
 import executor.Executor;
 import executor.SimpleExecutor;
+import executor.resultset.ResultHandler;
+import executor.statement.PreparedStatementHandler;
+import executor.statement.StatementHandler;
 import lombok.Data;
+import mapping.BoundSql;
 import mapping.Environment;
 import sqlsession.SqlSession;
 import transaction.Transaction;
@@ -104,5 +108,12 @@ public class Configuration {
             executor = new SimpleExecutor(this,transaction);
         }
         return executor;
+    }
+
+    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object paramObject,
+                                                ResultHandler resultHandler, BoundSql boundSql){
+        PreparedStatementHandler preparedStatementHandler = new PreparedStatementHandler(this,executor,mappedStatement,
+                paramObject,resultHandler,boundSql);
+        return preparedStatementHandler;
     }
 }

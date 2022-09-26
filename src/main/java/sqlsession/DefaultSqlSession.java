@@ -3,6 +3,8 @@ package sqlsession;
 import base.MappedStatement;
 import config.Configuration;
 import executor.Executor;
+import executor.resultset.DefaultResultHandler;
+import executor.resultset.ResultHandler;
 import mapping.BoundSql;
 import mapping.Environment;
 
@@ -42,7 +44,9 @@ public class DefaultSqlSession implements SqlSession{
         MappedStatement mappedStatement = this.configuration.getMappedStatement(statement);
 //        return (T) ("你被代理了！" + "\n方法：" + statement + "\n入参：" + param[0].toString() + "\n待执行sql:" + mappedStatement.getSql());
 
-        executor.query(mappedStatement,param,mappedStatement.getBoundSql());
+        ResultHandler resultHandler = new DefaultResultHandler();
+        List<T> results = executor.query(mappedStatement, param, resultHandler, mappedStatement.getBoundSql());
+        return results.get(0);
 //        //交给执行器去做
 //        Environment environment = configuration.getEnvironment();
 //        try {
@@ -58,7 +62,7 @@ public class DefaultSqlSession implements SqlSession{
 //        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchFieldException exception) {
 //            exception.printStackTrace();
 //        }
-        return null;
+//        return null;
     }
 
     @Override
@@ -66,23 +70,23 @@ public class DefaultSqlSession implements SqlSession{
         return this.configuration.getMap(type,this);
     }
 
-    private <T> List<T>  parseResultSetToBean(ResultSet rs,Class<T> clazz) throws SQLException, InstantiationException, IllegalAccessException, NoSuchFieldException {
-        List<T> result = new ArrayList<>();
-        while(rs.next()){
-            //创建bean
-            T bean = clazz.newInstance();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            for (int i = 0; i < columnCount; i++) {
-                String columnName = metaData.getColumnName(i+1);
-                Object value = rs.getObject(columnName);
-                // TODO column_name要与fieldName一致，目前不支持驼峰
-                Field field = clazz.getDeclaredField(columnName);
-                field.setAccessible(true);
-                field.set(bean,value);
-            }
-            result.add(bean);
-        }
-        return result;
-    }
+//    private <T> List<T>  parseResultSetToBean(ResultSet rs,Class<T> clazz) throws SQLException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+//        List<T> result = new ArrayList<>();
+//        while(rs.next()){
+//            //创建bean
+//            T bean = clazz.newInstance();
+//            ResultSetMetaData metaData = rs.getMetaData();
+//            int columnCount = metaData.getColumnCount();
+//            for (int i = 0; i < columnCount; i++) {
+//                String columnName = metaData.getColumnName(i+1);
+//                Object value = rs.getObject(columnName);
+//                // TODO column_name要与fieldName一致，目前不支持驼峰
+//                Field field = clazz.getDeclaredField(columnName);
+//                field.setAccessible(true);
+//                field.set(bean,value);
+//            }
+//            result.add(bean);
+//        }
+//        return result;
+//    }
 }

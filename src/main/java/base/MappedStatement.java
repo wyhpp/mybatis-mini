@@ -1,5 +1,6 @@
 package base;
 
+import config.Configuration;
 import lombok.Data;
 import mapping.BoundSql;
 
@@ -11,7 +12,7 @@ public class MappedStatement {
 
     private String id;
 
-    private String resultType;
+//    private String resultType;
 
     private String parameterType;
 
@@ -21,10 +22,13 @@ public class MappedStatement {
 
     private BoundSql boundSql;
 
+    private Configuration configuration;
+
     public static class Builder {
         private MappedStatement mappedStatement = new MappedStatement();
 
-        public Builder(String id, String sql, SqlCommandType commandType) {
+        public Builder(Configuration configuration,String id, String sql, SqlCommandType commandType) {
+            this.mappedStatement.configuration = configuration;
             this.mappedStatement.id = id;
             this.mappedStatement.boundSql = new BoundSql(sql);
             this.mappedStatement.commandType = commandType;

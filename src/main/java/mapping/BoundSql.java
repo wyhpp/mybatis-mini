@@ -12,6 +12,7 @@ public class BoundSql {
     private final String sql;
     private List<ParameterMapping> parameterMappings;
     private String resultType;
+
     public BoundSql(String sql) {
         this.sql = sql;
     }

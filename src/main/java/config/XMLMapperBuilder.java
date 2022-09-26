@@ -62,7 +62,7 @@ public class XMLMapperBuilder extends BaseBuilder {
             String parameterType = next.attribute("parameterType").toString();
             SqlCommandType sqlCommandType = SqlCommandType.valueOf(next.getName().toUpperCase(Locale.ENGLISH));
             String sql = next.getData().toString();
-            MappedStatement.Builder builder = new MappedStatement.Builder(namespace + "." + id,sql,sqlCommandType)
+            MappedStatement.Builder builder = new MappedStatement.Builder(configuration,namespace + "." + id,sql,sqlCommandType)
                     .setResultType(resultType);
             MappedStatement mappedStatement = builder.build();
             this.mappedStatementList.add(mappedStatement);

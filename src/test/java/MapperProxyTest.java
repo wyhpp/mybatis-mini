@@ -76,7 +76,7 @@ public class MapperProxyTest {
     }
 
     /**
-     * 第6次
+     * 第6,7次
      * @throws IOException
      */
     @Test

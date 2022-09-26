@@ -173,7 +173,7 @@ public class MyJDBCTemplate<T> {
         return result;
     }
 
-    private List<T> parseResultSetToBean(ResultSet rs,Class<T> clazz) throws SQLException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+    public static <T> List<T> parseResultSetToBean(ResultSet rs,Class<T> clazz) throws SQLException, InstantiationException, IllegalAccessException, NoSuchFieldException {
         List<T> result = new ArrayList<>();
         while(rs.next()){
             //创建bean

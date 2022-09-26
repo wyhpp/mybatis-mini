@@ -80,7 +80,6 @@ public class DefaultSqlSession implements SqlSession{
 //            for (int i = 0; i < columnCount; i++) {
 //                String columnName = metaData.getColumnName(i+1);
 //                Object value = rs.getObject(columnName);
-//                // TODO column_name要与fieldName一致，目前不支持驼峰
 //                Field field = clazz.getDeclaredField(columnName);
 //                field.setAccessible(true);
 //                field.set(bean,value);

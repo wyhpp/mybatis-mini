@@ -41,8 +41,8 @@ public class SimpleExecutor extends BaseExecutor{
             Statement statement= handler.prepare(connection,100);
             handler.parameterize(statement);
             return handler.query(statement,resultHandler);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }

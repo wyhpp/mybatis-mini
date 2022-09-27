@@ -12,11 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class PreparedStatementHandler extends BaseStatementHandler{
+public class PreparedStatementHandler extends BaseStatementHandler {
 
     public PreparedStatementHandler(Configuration configuration, Executor executor,
-                                       MappedStatement mappedStatement, Object parameterObject,
-                                       ResultHandler resultHandler, BoundSql boundSql) {
+                                    MappedStatement mappedStatement, Object parameterObject,
+                                    ResultHandler resultHandler, BoundSql boundSql) {
         super(configuration, executor, mappedStatement, parameterObject, resultHandler, boundSql);
     }
 
@@ -37,11 +37,8 @@ public class PreparedStatementHandler extends BaseStatementHandler{
         PreparedStatement ps = (PreparedStatement) statement;
         ps.executeQuery();
         List<E> results = null;
-        try {
-            results = resultHandler.handleResultSets(ps, Class.forName(mappedStatement.getBoundSql().getResultType()));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        results = resultHandler.handleResultSets(ps, mappedStatement.getResultType());
+
         return results;
     }
 }

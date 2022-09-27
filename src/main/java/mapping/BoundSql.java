@@ -1,7 +1,5 @@
 package mapping;
 
-import org.apache.ibatis.mapping.ParameterMapping;
-
 import java.util.List;
 
 /**
@@ -10,11 +8,15 @@ import java.util.List;
 public class BoundSql {
 
     private final String sql;
-    private List<ParameterMapping> parameterMappings;
-    private String resultType;
+    private final List<ParameterMapping> parameterMappings;
+    private final Object paramObject;
 
-    public BoundSql(String sql) {
+//    private String resultType;
+
+    public BoundSql(String sql, List<ParameterMapping> parameterMappings, Object paramObject) {
         this.sql = sql;
+        this.parameterMappings = parameterMappings;
+        this.paramObject = paramObject;
     }
 
     public String getSql() {
@@ -25,11 +27,11 @@ public class BoundSql {
         return parameterMappings;
     }
 
-    public void setResultType(String resultType) {
-        this.resultType = resultType;
-    }
-
-    public String getResultType() {
-        return resultType;
-    }
+//    public void setResultType(String resultType) {
+//        this.resultType = resultType;
+//    }
+//
+//    public String getResultType() {
+//        return resultType;
+//    }
 }

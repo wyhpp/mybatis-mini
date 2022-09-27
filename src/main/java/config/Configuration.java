@@ -19,9 +19,7 @@ import transaction.jdbcTransaction.JdbcTransactionFactory;
 import type.TypeAliasRegistry;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author wangyuhao
@@ -51,6 +49,10 @@ public class Configuration {
     protected String defaultExecutorType;
 
     protected Environment environment;
+    /**
+     * 记录已加载的mapper
+     */
+    protected Set<String> loadedResources;
 
     public Configuration(Properties variables, Map<String, MappedStatement> mappedStatements, MapperRegistry mapperRegistry) {
         this.variables = variables;
@@ -64,6 +66,7 @@ public class Configuration {
         this.mappedStatements = new HashMap<>();
         this.typeAliasRegistry = new TypeAliasRegistry();
         this.defaultExecutorType = "simple";
+        this.loadedResources = new HashSet<>();
         //注册事务类型和对应的类
         typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
         typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
@@ -115,5 +118,13 @@ public class Configuration {
         PreparedStatementHandler preparedStatementHandler = new PreparedStatementHandler(this,executor,mappedStatement,
                 paramObject,resultHandler,boundSql);
         return preparedStatementHandler;
+    }
+
+    public boolean isResourceLoaded(String resource){
+        return this.loadedResources.contains(resource);
+    };
+
+    public void addResources(String resource){
+        this.loadedResources.add(resource);
     }
 }

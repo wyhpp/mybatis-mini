@@ -82,7 +82,7 @@ public class XMLConfigBuilder extends BaseBuilder {
                     //classPath相对路径资源，解析xml生成mappedStatement
                     InputStream resourceAsStream = Resources.getResourceAsStream(resource);
                     SAXReader reader = new SAXReader();
-                    XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(this.configuration, reader.read(resourceAsStream));
+                    XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(this.configuration, reader.read(resourceAsStream),resource);
                     mapperBuilder.parse();
                     for (MappedStatement mappedStatement : mapperBuilder.getMappedStatementList()) {
                         this.configuration.addMappedStatement(mappedStatement);

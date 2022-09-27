@@ -45,7 +45,7 @@ public class DefaultSqlSession implements SqlSession{
 //        return (T) ("你被代理了！" + "\n方法：" + statement + "\n入参：" + param[0].toString() + "\n待执行sql:" + mappedStatement.getSql());
 
         ResultHandler resultHandler = new DefaultResultHandler();
-        List<T> results = executor.query(mappedStatement, param, resultHandler, mappedStatement.getBoundSql());
+        List<T> results = executor.query(mappedStatement, param, resultHandler, mappedStatement.getSqlSource().getBoundSql(param));
         return results.get(0);
 //        //交给执行器去做
 //        Environment environment = configuration.getEnvironment();

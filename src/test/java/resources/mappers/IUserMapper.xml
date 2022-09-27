@@ -3,7 +3,7 @@
     <select id="queryUserInfoById" parameterType="java.lang.Long" resultType="pojo.User">
         SELECT id, userId, userHead, userName
         FROM user
-        where id = ?
+        where id = #{id}
     </select>
 
 </mapper>

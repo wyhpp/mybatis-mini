@@ -84,9 +84,9 @@ public class XMLConfigBuilder extends BaseBuilder {
                     SAXReader reader = new SAXReader();
                     XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(this.configuration, reader.read(resourceAsStream),resource);
                     mapperBuilder.parse();
-                    for (MappedStatement mappedStatement : mapperBuilder.getMappedStatementList()) {
-                        this.configuration.addMappedStatement(mappedStatement);
-                    }
+//                    for (MappedStatement mappedStatement : mapperBuilder.getMappedStatementList()) {
+//                        this.configuration.addMappedStatement(mappedStatement);
+//                    }
                 } else if (resource == null && url != null && mapperClass == null) {
                     //网络资源，先跳过
                     continue;

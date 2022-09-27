@@ -9,7 +9,7 @@ public enum SqlCommandType {
     UPDATE,
     INSERT,
     DELETE,
-    UNKOWN;
+    UNKOWN,
 
     SqlCommandType() {
     }

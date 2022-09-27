@@ -3,6 +3,7 @@ package config;
 import base.MappedStatement;
 import base.SqlCommandType;
 import builder.BaseBuilder;
+import org.apache.ibatis.io.Resources;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
@@ -20,7 +21,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     //存放mapper.xml InputStream读取出来的document文件
     private final Document document;
 
-    private List<MappedStatement> mappedStatementList;
+//    private List<MappedStatement> mappedStatementList;
 
     private String resource;
 
@@ -30,15 +31,15 @@ public class XMLMapperBuilder extends BaseBuilder {
      * 临时增加getter,最终放入configuration里面传递
      * @return
      */
-    public List<MappedStatement> getMappedStatementList() {
-        return mappedStatementList;
-    }
+//    public List<MappedStatement> getMappedStatementList() {
+//        return mappedStatementList;
+//    }
 
     protected XMLMapperBuilder(Configuration configuration, Document document,String resource) {
         super(configuration);
         this.document = document;
         this.resource = resource;
-        mappedStatementList = new ArrayList<>();
+//        mappedStatementList = new ArrayList<>();
     }
 
     /**
@@ -50,7 +51,14 @@ public class XMLMapperBuilder extends BaseBuilder {
         //未加载过这个mapper
         if(!configuration.isResourceLoaded(resource)){
             configurationElement(rootElement);
+            //标记加载
             configuration.addResources(resource);
+            // 绑定映射器到namespace   namespace=mapper接口的类路径
+            try {
+                configuration.addMapper(Class.forName(currentNamespace));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
 //        //获取命名空间
@@ -85,7 +93,7 @@ public class XMLMapperBuilder extends BaseBuilder {
         //获取命名空间
         String namespace = element.attributeValue("namespace");
         currentNamespace = namespace;
-        if (namespace.equals("")) {
+        if ("".equals(namespace)) {
             throw new RuntimeException("Mapper's namespace cannot be empty");
         }
         buildStatementFromContext(element.elements("select"));

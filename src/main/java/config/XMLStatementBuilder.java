@@ -25,6 +25,19 @@ public class XMLStatementBuilder extends BaseBuilder {
         // 参数类型
         String parameterType = element.attributeValue("parameterType");
         Class<?> parameterTypeClass = typeAliasRegistry.resolveAlias(parameterType);
+        //如果是自定义参数类型
+        if (parameterTypeClass == null){
+            Class<?> aClass = null;
+            try {
+                aClass = Class.forName(parameterType);
+                //注册类型
+                typeAliasRegistry.registerAlias(parameterType,aClass);
+                parameterTypeClass = aClass;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                throw new RuntimeException("parameterType " + parameterType +"class not found");
+            }
+        }
         // 结果类型
         String resultType = element.attributeValue("resultType");
         Class<?> resultTypeClass = typeAliasRegistry.resolveAlias(resultType);

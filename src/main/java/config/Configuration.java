@@ -17,6 +17,7 @@ import sqlsession.SqlSession;
 import transaction.Transaction;
 import transaction.jdbcTransaction.JdbcTransactionFactory;
 import type.TypeAliasRegistry;
+import type.TypeHandlerRegistry;
 
 
 import java.util.*;
@@ -44,6 +45,10 @@ public class Configuration {
      */
     protected final TypeAliasRegistry typeAliasRegistry;
     /**
+     * 类型处理注册器
+     */
+    protected final TypeHandlerRegistry typeHandlerRegistry;
+    /**
      * 默认执行器类型
      */
     protected String defaultExecutorType;
@@ -59,12 +64,14 @@ public class Configuration {
         this.mappedStatements = mappedStatements;
         this.mapperRegistry = mapperRegistry;
         this.typeAliasRegistry = new TypeAliasRegistry();
+        this.typeHandlerRegistry = new TypeHandlerRegistry();
     }
 
     public Configuration() {
         this.mapperRegistry = new MapperRegistry();
         this.mappedStatements = new HashMap<>();
         this.typeAliasRegistry = new TypeAliasRegistry();
+        this.typeHandlerRegistry = new TypeHandlerRegistry();
         this.defaultExecutorType = "simple";
         this.loadedResources = new HashSet<>();
         //注册事务类型和对应的类

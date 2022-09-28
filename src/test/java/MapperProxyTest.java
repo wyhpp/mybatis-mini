@@ -92,8 +92,12 @@ public class MapperProxyTest {
 
         // 3. 测试验证
 //        for (int i = 0; i < 50; i++) {
-            User user = userDao.queryUserInfoById(1L,"10001");
-            logger.info("测试结果:" + user.toString());
+            User user1 = new User();
+            user1.setUserId("10001");
+            user1.setId(1L);
+            userDao.queryUserInfo(user1);
+//            User user = userDao.queryUserInfoById(1L,"10001");
+//            logger.info("测试结果:" + user.toString());
 //        }
     }
 }

@@ -2,7 +2,16 @@ package mapping;
 
 
 import config.Configuration;
+import lombok.Data;
+import org.apache.ibatis.type.JdbcType;
+import type.TypeHandler;
 
+import java.sql.JDBCType;
+
+/**
+ * @author wangyuhao
+ */
+@Data
 public class ParameterMapping {
 
     private Configuration configuration;
@@ -11,6 +20,10 @@ public class ParameterMapping {
 //    private ParameterMode mode;
     //参数类型
     private Class<?> javaType;
+    //jdbc类型
+    private JdbcType jdbcType;
+
+    private TypeHandler typeHandler;
 
     public static class Builder {
         private ParameterMapping parameterMapping = new ParameterMapping();

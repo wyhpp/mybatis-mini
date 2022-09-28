@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 /**
  * 构造StaticSqlSource
+ * @author wangyuhao
  */
 public class RawSqlSource implements SqlSource {
     private SqlSource sqlSource;

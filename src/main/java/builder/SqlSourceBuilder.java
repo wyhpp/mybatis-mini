@@ -8,10 +8,17 @@ import org.dom4j.Element;
 import parsing.GenericTokenPaser;
 import parsing.TokenHandler;
 
+import java.lang.reflect.Executable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+/**
+ * @author wangyuhao
+ */
 public class SqlSourceBuilder extends BaseBuilder{
 
     protected SqlSourceBuilder(Configuration configuration) {
@@ -66,7 +73,29 @@ public class SqlSourceBuilder extends BaseBuilder{
             // 先解析参数映射,就是转化成一个 HashMap | #{favouriteSection,jdbcType=VARCHAR}
             Map<String, String> propertiesMap = new ParameterExpression(content);
             String property = propertiesMap.get("property");
-            Class<?> propertyType = parameterType;
+            Class<?> propertyType;
+            if (typeHandlerRegistry.hasTypeHandler(parameterType)) {
+                //基本类型会存在typeHandlerRegistry内
+                propertyType = parameterType;
+            } else if (property != null) {
+                //如果是自己定义的类，map，list
+                Field declaredField = null;
+                Method method = null;
+                try {
+                    method = parameterType.getMethod("get" + property.substring(0, 1).toUpperCase() + property.substring(1));
+                    declaredField = parameterType.getDeclaredField(property);
+                } catch (NoSuchMethodException | NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
+                if (method != null) {
+                    propertyType = Objects.requireNonNull(declaredField).getDeclaringClass();
+                } else {
+                    propertyType = Object.class;
+                }
+            } else {
+                propertyType = Object.class;
+            }
+            System.out.println("构建参数映射 property：{} propertyType：{}"+ property + propertyType);
             ParameterMapping.Builder builder = new ParameterMapping.Builder(configuration, property, propertyType);
             return builder.build();
         }

@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+/**
+ * @author wangyuhao
+ */
 public class PreparedStatementHandler extends BaseStatementHandler {
 
     public PreparedStatementHandler(Configuration configuration, Executor executor,

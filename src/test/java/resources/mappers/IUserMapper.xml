@@ -4,7 +4,7 @@
 
 <mapper namespace="Dao.IUserDao">
 
-    <select id="queryUserInfoById" parameterType="java.lang.Long" resultType="pojo.User">
+    <select id="queryUserInfoById" parameterType="Long" resultType="pojo.User">
         SELECT id, userId, userHead, userName
         FROM user
         where id = #{id} and userId = #{userId1,jdbcType = VARCHAR}

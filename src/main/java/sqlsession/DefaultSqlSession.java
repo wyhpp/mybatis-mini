@@ -5,6 +5,7 @@ import config.Configuration;
 import executor.Executor;
 import executor.resultset.DefaultResultHandler;
 import executor.resultset.ResultHandler;
+import lombok.Data;
 import mapping.BoundSql;
 import mapping.Environment;
 
@@ -21,7 +22,7 @@ public class DefaultSqlSession implements SqlSession{
     /**
      * 配置类
      */
-    private Configuration configuration;
+    private final Configuration configuration;
 
     private Logger logger = Logger.getLogger("DefaultSqlSession");
     /**
@@ -68,6 +69,11 @@ public class DefaultSqlSession implements SqlSession{
     @Override
     public <T> T getMapper(Class<T> type) {
         return this.configuration.getMap(type,this);
+    }
+
+    @Override
+    public Configuration getConfiguration() {
+        return this.configuration;
     }
 
 //    private <T> List<T>  parseResultSetToBean(ResultSet rs,Class<T> clazz) throws SQLException, InstantiationException, IllegalAccessException, NoSuchFieldException {

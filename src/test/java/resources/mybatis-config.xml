@@ -18,7 +18,7 @@
     <mappers>
         <!-- 使用接口信息进行配置 -->
         <mapper resource="mappers/IUserMapper.xml" />
-        <mapper class="Dao.IUserDao"/>
+<!--        <mapper class="Dao.IUserDao"/>-->
     </mappers>
 
 </configuration>

@@ -70,8 +70,8 @@ public class MapperProxyTest {
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
 
         // 3. 测试验证
-        User user = userDao.queryUserInfoById(1L);
-        logger.info("测试结果:" + user.toString());
+//        User user = userDao.queryUserInfoById(1L);
+//        logger.info("测试结果:" + user.toString());
 
     }
 
@@ -92,7 +92,7 @@ public class MapperProxyTest {
 
         // 3. 测试验证
 //        for (int i = 0; i < 50; i++) {
-            User user = userDao.queryUserInfoById(1L);
+            User user = userDao.queryUserInfoById(1L,"10001");
             logger.info("测试结果:" + user.toString());
 //        }
     }

@@ -1,5 +1,7 @@
 package sqlsession;
 
+import config.Configuration;
+
 /**
  * @author wangyuhao
  */
@@ -28,4 +30,6 @@ public interface SqlSession {
      * @return
      */
     <T> T getMapper(Class<T> type);
+
+    Configuration getConfiguration();
 }

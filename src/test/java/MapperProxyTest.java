@@ -37,7 +37,7 @@ public class MapperProxyTest {
      * 第三次
      */
     @Test
-    public void mapperTest(){
+    public void mapperTest() {
 //        // 1. 注册 Mapper
 //        MapperRegistry registry = new MapperRegistry();
 //        registry.addMappers("Dao");
@@ -56,6 +56,7 @@ public class MapperProxyTest {
 
     /**
      * 第4，5次
+     *
      * @throws IOException
      */
     @Test
@@ -77,6 +78,7 @@ public class MapperProxyTest {
 
     /**
      * 第6,7次
+     *
      * @throws IOException
      */
     @Test
@@ -92,12 +94,22 @@ public class MapperProxyTest {
 
         // 3. 测试验证
 //        for (int i = 0; i < 50; i++) {
-            User user1 = new User();
-            user1.setUserId("10001");
-            user1.setId(1L);
-//            User user = userDao.queryUserInfo(user1);
-            User user2 = userDao.queryUserInfoById(1L,"10001");
-            logger.info("测试结果:" + user2.toString());
+        User user1 = new User();
+        user1.setUserId("10001");
+        user1.setId(1L);
+        User user = userDao.queryUserInfo(user1);
+//            User user2 = userDao.queryUserInfoById(1L,"10001");
+        logger.info("测试结果:" + user.toString());
+        user1.setUserId("20002");
+        user1.setUserName("mm");
+        user1.setUserHead("head");
+        userDao.insertUserInfo(user1);
+//        User user2 = userDao.queryUserInfo(user1);
+//        logger.info("测试结果:" + user2.toString());
+//        user1.setUserName("gg");
+//        userDao.updateUserInfo(user1);
+//        User user3 = userDao.queryUserInfo(user1);
+//        logger.info("测试结果:" + user3.toString());
 //        }
     }
 }

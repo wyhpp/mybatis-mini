@@ -13,4 +13,8 @@ public interface IUserDao {
 
 //    User queryUserInfoById(Long id,String userId1);
     User queryUserInfo(User user);
+
+    int updateUserInfo(User user);
+
+    int insertUserInfo(User user);
 }

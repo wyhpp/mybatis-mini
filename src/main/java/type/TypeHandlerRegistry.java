@@ -23,7 +23,7 @@ public class TypeHandlerRegistry {
         register(String.class, JdbcType.CHAR, new StringTypeHandler());
         register(String.class, JdbcType.VARCHAR, new StringTypeHandler());
 
-        register(Object.class, JdbcType.OTHER, unknownTypeHandler);
+        register(Object.class, unknownTypeHandler);
     }
 
     private void register(Type javaType, JdbcType jdbcType, TypeHandler<?> handler) {

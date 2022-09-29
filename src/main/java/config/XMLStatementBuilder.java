@@ -43,8 +43,11 @@ public class XMLStatementBuilder extends BaseBuilder {
         }
         // 结果类型
         String resultType = element.attributeValue("resultType");
-        Class<?> resultTypeClass = typeAliasRegistry.resolveAlias(resultType);
-        if(resultTypeClass == null){
+        Class<?> resultTypeClass = null;
+        if (resultType != null){
+            resultTypeClass = typeAliasRegistry.resolveAlias(resultType);
+        }
+        if(resultTypeClass == null && resultType != null){
             try {
                 resultTypeClass = Class.forName(resultType);
             } catch (ClassNotFoundException e) {

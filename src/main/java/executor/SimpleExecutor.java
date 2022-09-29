@@ -46,4 +46,23 @@ public class SimpleExecutor extends BaseExecutor{
         }
         return null;
     }
+
+    @Override
+    protected int doUpdate(MappedStatement ms, Object parameter) {
+        Statement stmt = null;
+        try {
+            Configuration configuration = ms.getConfiguration();
+            // 新建一个 StatementHandler
+            StatementHandler handler = configuration.newStatementHandler(this, ms, parameter, null, null);
+            // 准备语句
+            Connection connection = transaction.getConnection();
+            stmt = handler.prepare(connection,100);
+            handler.parameterize(stmt);
+            // StatementHandler.update
+            return handler.update(stmt);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
 }

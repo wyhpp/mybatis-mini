@@ -97,7 +97,7 @@ public class SqlSourceBuilder extends BaseBuilder{
                 propertyType = Object.class;
             }
             String jdbcType = propertiesMap.get("jdbcType");
-            JdbcType type = JdbcType.OTHER;
+            JdbcType type = null;
             if(jdbcType != null){
                 type = JdbcType.valueOf(jdbcType);
             }

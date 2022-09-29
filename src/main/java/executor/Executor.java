@@ -16,6 +16,8 @@ public interface Executor {
 
     <E> List<E> query(MappedStatement ms, Object parameter, ResultHandler resultHandler, BoundSql boundSql);
 
+    int update(MappedStatement ms, Object parameter) throws SQLException;
+
 //    Transaction getTransaction();
 
     void commit(boolean required) throws SQLException;

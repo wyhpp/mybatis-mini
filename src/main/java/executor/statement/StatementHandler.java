@@ -24,4 +24,6 @@ public interface StatementHandler {
 
     /** 执行查询 */
     <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException;
+
+    int update(Statement statement) throws SQLException;
 }

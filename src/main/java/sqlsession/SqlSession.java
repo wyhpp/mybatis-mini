@@ -2,6 +2,8 @@ package sqlsession;
 
 import config.Configuration;
 
+import java.util.List;
+
 /**
  * @author wangyuhao
  */
@@ -22,6 +24,14 @@ public interface SqlSession {
      * @return
      */
     <T> T selectOne(String statement, Object param);
+
+    <E> List<E> selectList(String statement, Object parameter);
+
+    int insert(String statement, Object parameter);
+
+    int update(String statement, Object parameter);
+
+    Object delete(String statement, Object parameter);
 
     /**
      * 获取映射器

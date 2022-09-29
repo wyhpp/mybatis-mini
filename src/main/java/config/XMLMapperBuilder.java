@@ -96,20 +96,24 @@ public class XMLMapperBuilder extends BaseBuilder {
         if ("".equals(namespace)) {
             throw new RuntimeException("Mapper's namespace cannot be empty");
         }
-        buildStatementFromContext(element.elements("select"));
-//        buildStatementFromContext(element.elements("update"));
-//        buildStatementFromContext(element.elements("insert"));
-//        buildStatementFromContext(element.elements("delete"));
+        buildStatementFromContext(element.elements("select"),
+                element.elements("update"),
+                element.elements("insert"),
+                element.elements("delete")
+        );
     }
 
     /**
      * 解析select|insert|update|delete标签
-     * @param list
+     * @param lists
      */
-    private void buildStatementFromContext(List<Element> list) {
-        for (Element element : list) {
-            final XMLStatementBuilder statementParser = new XMLStatementBuilder(configuration, element,currentNamespace);
-            statementParser.parseStatementNode();
+    @SafeVarargs
+    private final void buildStatementFromContext(List<Element>... lists) {
+        for (List<Element> list : lists) {
+            for (Element element : list) {
+                final XMLStatementBuilder statementParser = new XMLStatementBuilder(configuration, element,currentNamespace);
+                statementParser.parseStatementNode();
+            }
         }
     }
 }

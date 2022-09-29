@@ -27,18 +27,18 @@ public class MapperMethod {
         Object result;
         Object param;
         switch (this.sqlCommand.getType()){
-//            case INSERT:
-//                param = this.method.convertArgsToSqlCommandParam(args);
-//                result = this.rowCountResult(sqlSession.insert(this.command.getName(), param));
-//                break;
-//            case UPDATE:
-//                param = this.method.convertArgsToSqlCommandParam(args);
-//                result = this.rowCountResult(sqlSession.update(this.command.getName(), param));
-//                break;
-//            case DELETE:
-//                param = this.method.convertArgsToSqlCommandParam(args);
-//                result = this.rowCountResult(sqlSession.delete(this.command.getName(), param));
-//                break;
+            case INSERT:
+                param = this.method.convertArgsToSqlCommandParam(args);
+                result = sqlSession.insert(this.sqlCommand.getName(),param);
+                break;
+            case UPDATE:
+                param = this.method.convertArgsToSqlCommandParam(args);
+                result = sqlSession.update(this.sqlCommand.getName(),param);
+                break;
+            case DELETE:
+                param = this.method.convertArgsToSqlCommandParam(args);
+                result = sqlSession.delete(this.sqlCommand.getName(),param);
+                break;
             case SELECT:
 //                if (this.method.returnsVoid() && this.method.hasResultHandler()) {
 //                    this.executeWithResultHandler(sqlSession, args);

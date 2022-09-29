@@ -44,4 +44,12 @@ public abstract class BaseExecutor implements Executor{
             transaction.commit();
         }
     }
+
+    @Override
+    public int update(MappedStatement ms, Object parameter) throws SQLException {
+
+        return doUpdate(ms,parameter);
+    }
+
+    protected abstract int doUpdate(MappedStatement ms,Object parameter);
 }

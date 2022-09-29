@@ -16,4 +16,20 @@
         where id = #{id} and userId = #{userId}
     </select>
 
+<!--    <update id="updateUserInfo" parameterType="pojo.User">-->
+<!--        UPDATE user-->
+<!--        SET userName = #{userName}-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
+
+    <insert id="insertUserInfo" parameterType="pojo.User">
+        INSERT INTO user
+        (userId, userName, userHead, createTime, updateTime)
+        VALUES (#{userId}, #{userName}, #{userHead}, now(), now())
+    </insert>
+
+<!--    <delete id="deleteUserInfoByUserId" parameterType="java.lang.String">-->
+<!--        DELETE FROM user WHERE userId = #{userId}-->
+<!--    </delete>-->
+
 </mapper>

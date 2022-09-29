@@ -14,6 +14,7 @@ public class TypeHandlerRegistry {
     private final Map<JdbcType, TypeHandler<?>> JDBC_TYPE_HANDLER_MAP = new EnumMap<>(JdbcType.class);
     private final Map<Type, Map<JdbcType, TypeHandler<?>>> typeHandlerMap = new HashMap<>();
     private final Map<Class<?>, TypeHandler<?>> allTypeHandlersMap = new HashMap<>();
+    private final TypeHandler<Object> unknownTypeHandler = new UnknownTypeHandler(this);
 
     public TypeHandlerRegistry() {
         register(Long.class, new LongTypeHandler());
@@ -21,6 +22,8 @@ public class TypeHandlerRegistry {
 
         register(String.class, JdbcType.CHAR, new StringTypeHandler());
         register(String.class, JdbcType.VARCHAR, new StringTypeHandler());
+
+        register(Object.class, JdbcType.OTHER, unknownTypeHandler);
     }
 
     private void register(Type javaType, JdbcType jdbcType, TypeHandler<?> handler) {
@@ -43,5 +46,14 @@ public class TypeHandlerRegistry {
 
     public boolean hasTypeHandler(Type javaType) {
         return !(this.typeHandlerMap.get(javaType) == null || this.typeHandlerMap.get(javaType).isEmpty());
+    }
+
+    public TypeHandler<?> getTypeHandler(Type javaType,JdbcType jdbcType){
+        Map<JdbcType, TypeHandler<?>> map = this.typeHandlerMap.get(javaType);
+        if(map != null){
+            //jdbcType为空也能获取
+            return map.get(jdbcType);
+        }
+        return null;
     }
 }

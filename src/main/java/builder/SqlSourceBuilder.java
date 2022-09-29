@@ -4,6 +4,7 @@ import config.Configuration;
 import mapping.ParameterMapping;
 import mapping.SqlSource;
 import org.apache.ibatis.builder.ParameterExpression;
+import org.apache.ibatis.type.JdbcType;
 import org.dom4j.Element;
 import parsing.GenericTokenPaser;
 import parsing.TokenHandler;
@@ -88,15 +89,21 @@ public class SqlSourceBuilder extends BaseBuilder{
                     e.printStackTrace();
                 }
                 if (method != null) {
-                    propertyType = Objects.requireNonNull(declaredField).getDeclaringClass();
+                    propertyType = (Class<?>) Objects.requireNonNull(declaredField).getGenericType();
                 } else {
                     propertyType = Object.class;
                 }
             } else {
                 propertyType = Object.class;
             }
+            String jdbcType = propertiesMap.get("jdbcType");
+            JdbcType type = JdbcType.OTHER;
+            if(jdbcType != null){
+                type = JdbcType.valueOf(jdbcType);
+            }
             System.out.println("构建参数映射 property：{} propertyType：{}"+ property + propertyType);
-            ParameterMapping.Builder builder = new ParameterMapping.Builder(configuration, property, propertyType);
+            ParameterMapping.Builder builder = new ParameterMapping.Builder(configuration, property, propertyType)
+                    .jdbcType(type);
             return builder.build();
         }
     }

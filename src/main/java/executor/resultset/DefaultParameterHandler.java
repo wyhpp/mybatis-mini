@@ -6,7 +6,10 @@ import mapping.ParameterMapping;
 import org.apache.ibatis.type.JdbcType;
 import type.TypeHandler;
 import type.TypeHandlerRegistry;
+import util.ReflectUtil;
 
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,6 +42,13 @@ public class DefaultParameterHandler implements ParameterHandler{
                 if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
                     value = parameterObject;
                 } else {
+                    try {
+                        //如果是多个参数，parameterObject被封装成map
+                        value = ReflectUtil.getValue(parameterObject, propertyName);
+                    } catch (InvocationTargetException | IntrospectionException | IllegalAccessException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException("implement get method err");
+                    }
                     // 通过 MetaObject.getValue 反射取得值设进去
 //                    MetaObject metaObject = configuration.newMetaObject(parameterObject);
 //                    value = metaObject.getValue(propertyName);
@@ -48,6 +58,9 @@ public class DefaultParameterHandler implements ParameterHandler{
                 // 设置参数
 //                logger.info("根据每个ParameterMapping中的TypeHandler设置对应的参数信息 value：{}", JSON.toJSONString(value));
                 TypeHandler typeHandler = parameterMapping.getTypeHandler();
+                if (typeHandler == null){
+                    throw new RuntimeException("typeHandler为空,name is "+parameterMapping.getProperty());
+                }
                 typeHandler.setParameter(ps, i + 1, value, jdbcType);
             }
         }

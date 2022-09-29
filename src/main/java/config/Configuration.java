@@ -7,6 +7,8 @@ import dataSource.unpooled.UnpooledDataSource;
 import dataSource.unpooled.UnpooledDataSourceFactory;
 import executor.Executor;
 import executor.SimpleExecutor;
+import executor.resultset.DefaultParameterHandler;
+import executor.resultset.ParameterHandler;
 import executor.resultset.ResultHandler;
 import executor.statement.PreparedStatementHandler;
 import executor.statement.StatementHandler;
@@ -125,6 +127,10 @@ public class Configuration {
         PreparedStatementHandler preparedStatementHandler = new PreparedStatementHandler(this,executor,mappedStatement,
                 paramObject,resultHandler,boundSql);
         return preparedStatementHandler;
+    }
+
+    public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object param, BoundSql boundSql){
+        return new DefaultParameterHandler(mappedStatement,param,boundSql);
     }
 
     public boolean isResourceLoaded(String resource){

@@ -4,10 +4,10 @@
 
 <mapper namespace="Dao.IUserDao">
 
-    <select id="queryUserInfoById" parameterType="Long" resultType="pojo.User">
+    <select id="queryUserInfoById" resultType="pojo.User">
         SELECT id, userId, userHead, userName
         FROM user
-        where id = #{id} and userId = #{userId1,jdbcType = VARCHAR}
+        where id = #{id} and userId = #{userId1}
     </select>
 
     <select id="queryUserInfo" parameterType="pojo.User" resultType="pojo.User">

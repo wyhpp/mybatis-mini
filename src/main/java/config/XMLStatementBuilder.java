@@ -24,9 +24,12 @@ public class XMLStatementBuilder extends BaseBuilder {
         String id = element.attributeValue("id");
         // 参数类型
         String parameterType = element.attributeValue("parameterType");
-        Class<?> parameterTypeClass = typeAliasRegistry.resolveAlias(parameterType);
+        Class<?> parameterTypeClass = null;
+        if(parameterType != null){
+            parameterTypeClass = typeAliasRegistry.resolveAlias(parameterType);
+        }
         //如果是自定义参数类型
-        if (parameterTypeClass == null){
+        if (parameterTypeClass == null && parameterType != null){
             Class<?> aClass = null;
             try {
                 aClass = Class.forName(parameterType);

@@ -97,9 +97,9 @@ public class XMLMapperBuilder extends BaseBuilder {
             throw new RuntimeException("Mapper's namespace cannot be empty");
         }
         buildStatementFromContext(element.elements("select"));
-        buildStatementFromContext(element.elements("update"));
-        buildStatementFromContext(element.elements("insert"));
-        buildStatementFromContext(element.elements("delete"));
+//        buildStatementFromContext(element.elements("update"));
+//        buildStatementFromContext(element.elements("insert"));
+//        buildStatementFromContext(element.elements("delete"));
     }
 
     /**

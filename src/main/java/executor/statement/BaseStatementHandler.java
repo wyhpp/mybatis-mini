@@ -3,6 +3,7 @@ package executor.statement;
 import base.MappedStatement;
 import config.Configuration;
 import executor.Executor;
+import executor.resultset.ParameterHandler;
 import executor.resultset.ResultHandler;
 import mapping.BoundSql;
 
@@ -19,6 +20,8 @@ public abstract class BaseStatementHandler implements StatementHandler {
     protected final Object parameterObject;
     protected final ResultHandler resultHandler;
 
+    protected final ParameterHandler parameterHandler;
+
     protected BoundSql boundSql;
 
     protected BaseStatementHandler(Configuration configuration, Executor executor, MappedStatement mappedStatement, Object parameterObject, ResultHandler resultHandler,BoundSql boundSql) {
@@ -28,6 +31,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
         this.parameterObject = parameterObject;
         this.resultHandler = resultHandler;
         this.boundSql = boundSql;
+        this.parameterHandler = this.configuration.newParameterHandler(mappedStatement,parameterObject,boundSql);
     }
 
     @Override

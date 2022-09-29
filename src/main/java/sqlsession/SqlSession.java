@@ -21,7 +21,7 @@ public interface SqlSession {
      * @param <T>
      * @return
      */
-    <T> T selectOne(String statement, Object... param);
+    <T> T selectOne(String statement, Object param);
 
     /**
      * 获取映射器

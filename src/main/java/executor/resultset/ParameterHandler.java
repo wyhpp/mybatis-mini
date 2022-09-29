@@ -8,5 +8,5 @@ import java.sql.Statement;
  * @author wangyuhao
  */
 public interface ParameterHandler {
-    public void setParameters(PreparedStatement ps) throws SQLException;
+    void setParameters(PreparedStatement ps) throws SQLException;
 }

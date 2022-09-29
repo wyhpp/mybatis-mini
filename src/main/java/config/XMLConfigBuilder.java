@@ -42,6 +42,7 @@ public class XMLConfigBuilder extends BaseBuilder {
             environmentElement(root.element("environments"));
             mapperElement(root.element("mappers"));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
         }
         return this.configuration;

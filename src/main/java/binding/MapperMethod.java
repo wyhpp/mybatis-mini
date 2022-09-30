@@ -40,18 +40,13 @@ public class MapperMethod {
                 result = sqlSession.delete(this.sqlCommand.getName(),param);
                 break;
             case SELECT:
-//                if (this.method.returnsVoid() && this.method.hasResultHandler()) {
-//                    this.executeWithResultHandler(sqlSession, args);
-//                    result = null;
-//                } else if (this.method.returnsMany()) {
-//                    result = this.executeForMany(sqlSession, args);
-//                } else if (this.method.returnsMap()) {
-//                    result = this.executeForMap(sqlSession, args);
-//                } else if (this.method.returnsCursor()) {
-//                    result = this.executeForCursor(sqlSession, args);
-//                } else {
+                if(this.method.returnsMany){
+                    param = this.method.convertArgsToSqlCommandParam(args);
+                    result = sqlSession.selectList(this.sqlCommand.getName(),param);
+                }else{
                     param = this.method.convertArgsToSqlCommandParam(args);
                     result = sqlSession.selectOne(this.sqlCommand.getName(), param);
+                }
 //                    if (this.method.returnsOptional() && (result == null || !this.method.getReturnType().equals(result.getClass()))) {
 //                        result = Optional.ofNullable(result);
 //                    }
@@ -69,8 +64,15 @@ public class MapperMethod {
     public static class MethodSignature {
         //存放--变量位置：变量名
         private SortedMap<Integer,String> names;
+        //是否返回多个结果
+        private boolean returnsMany;
+        //返回值类型
+        private Class<?> returnType;
 
         public MethodSignature(Configuration configuration,Method method) {
+            this.returnType = method.getReturnType();
+            //判断返回类型是否是列表
+            this.returnsMany = Collection.class.isAssignableFrom(this.returnType) || this.returnType.isArray();
             //获取方法参数位置和参数名
             Class<?>[] paramTypes = method.getParameterTypes();
             Annotation[][] paramAnnotations = method.getParameterAnnotations();

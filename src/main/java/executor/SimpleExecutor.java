@@ -50,6 +50,7 @@ public class SimpleExecutor extends BaseExecutor{
     @Override
     protected int doUpdate(MappedStatement ms, Object parameter) {
         Statement stmt = null;
+        int res = -1;
         try {
             Configuration configuration = ms.getConfiguration();
             // 新建一个 StatementHandler
@@ -59,10 +60,11 @@ public class SimpleExecutor extends BaseExecutor{
             stmt = handler.prepare(connection,100);
             handler.parameterize(stmt);
             // StatementHandler.update
-            return handler.update(stmt);
+            res = handler.update(stmt);
+            commit(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return -1;
+        return res;
     }
 }

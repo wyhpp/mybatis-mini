@@ -47,7 +47,6 @@ public abstract class BaseExecutor implements Executor{
 
     @Override
     public int update(MappedStatement ms, Object parameter) throws SQLException {
-
         return doUpdate(ms,parameter);
     }
 

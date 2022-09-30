@@ -13,6 +13,7 @@ import sqlsession.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -97,13 +98,13 @@ public class MapperProxyTest {
         User user1 = new User();
         user1.setUserId("10001");
         user1.setId(1L);
-        User user = userDao.queryUserInfo(user1);
+//        User user = userDao.queryUserInfo(user1);
 //            User user2 = userDao.queryUserInfoById(1L,"10001");
-        logger.info("测试结果:" + user.toString());
-        user1.setUserId("20002");
-        user1.setUserName("mm");
-        user1.setUserHead("head");
-        userDao.insertUserInfo(user1);
+//        logger.info("测试结果:" + user.toString());
+//        user1.setUserId("20002");
+//        user1.setUserName("mm");
+//        user1.setUserHead("head");
+//        userDao.insertUserInfo(user1);
 //        User user2 = userDao.queryUserInfo(user1);
 //        logger.info("测试结果:" + user2.toString());
 //        user1.setUserName("gg");
@@ -111,5 +112,10 @@ public class MapperProxyTest {
 //        User user3 = userDao.queryUserInfo(user1);
 //        logger.info("测试结果:" + user3.toString());
 //        }
+
+        List<User> users = userDao.queryUserInfoList();
+        for (User user2 : users) {
+            System.out.println(user2);
+        }
     }
 }

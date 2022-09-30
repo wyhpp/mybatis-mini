@@ -16,11 +16,16 @@
         where id = #{id} and userId = #{userId}
     </select>
 
-<!--    <update id="updateUserInfo" parameterType="pojo.User">-->
-<!--        UPDATE user-->
-<!--        SET userName = #{userName}-->
-<!--        WHERE id = #{id}-->
-<!--    </update>-->
+    <select id="queryUserInfoList" resultType="pojo.User">
+        SELECT id, userId, userName, userHead
+        FROM user
+    </select>
+
+    <update id="updateUserInfo" parameterType="pojo.User">
+        UPDATE user
+        SET userName = #{userName}
+        WHERE id = #{id}
+    </update>
 
     <insert id="insertUserInfo" parameterType="pojo.User">
         INSERT INTO user

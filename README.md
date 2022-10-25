@@ -3,7 +3,7 @@
 
 ## 1. Mybatis执行和类流程图
 
-https://gitee.com/wyhpp/mybatis-mini/blob/master/pic/fe2afe9d6b894ce682826743fecdb51b.png
+![image](https://gitee.com/wyhpp/mybatis-mini/blob/master/pic/fe2afe9d6b894ce682826743fecdb51b.png)
 
 
 ## 2. 解析配置XML/SqlSessionBuilder

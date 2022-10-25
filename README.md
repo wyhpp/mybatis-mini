@@ -2,9 +2,8 @@
 # 个人实现Mybatis框架
 
 ## 1. Mybatis执行和类流程图
-![4d766e2661580a26d9b1acf9e48c249f.png](../_resources/4d766e2661580a26d9b1acf9e48c249f-1.png)
 
-
+https://gitee.com/wyhpp/mybatis-mini/blob/master/pic/fe2afe9d6b894ce682826743fecdb51b.png
 
 
 ## 2. 解析配置XML/SqlSessionBuilder

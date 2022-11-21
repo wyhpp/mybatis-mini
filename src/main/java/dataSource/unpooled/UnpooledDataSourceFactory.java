@@ -9,7 +9,7 @@ public class UnpooledDataSourceFactory implements DataSourceFactory {
 
     private UnpooledDataSource unpooledDataSource = new UnpooledDataSource();
 
-    private Properties properties;
+    protected Properties properties;
 
     @Override
     public void setProperties(Properties var1) {

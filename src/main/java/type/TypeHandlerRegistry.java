@@ -30,7 +30,7 @@ public class TypeHandlerRegistry {
         if (javaType != null) {
             Map<JdbcType, TypeHandler<?>> map = this.typeHandlerMap.get(javaType);
             if (map == null || map.isEmpty()) {
-                map = new HashMap();
+                map = new HashMap<>();
             }
 
             map.put(jdbcType, handler);

@@ -30,6 +30,16 @@ public class UnpooledDataSource implements DataSource {
     // 事务级别
     private Integer defaultTransactionIsolationLevel;
 
+    public UnpooledDataSource() {
+    }
+
+    public UnpooledDataSource(String driver, String url, String username, String password) {
+        this.driver = driver;
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
+
     @Override
     public Connection getConnection() throws SQLException {
         return getConnection(this.username,this.password);

@@ -49,9 +49,6 @@ public class DefaultParameterHandler implements ParameterHandler{
                         e.printStackTrace();
                         throw new RuntimeException("implement get method err");
                     }
-                    // 通过 MetaObject.getValue 反射取得值设进去
-//                    MetaObject metaObject = configuration.newMetaObject(parameterObject);
-//                    value = metaObject.getValue(propertyName);
                 }
                 JdbcType jdbcType = parameterMapping.getJdbcType();
 

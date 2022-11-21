@@ -13,7 +13,6 @@ import java.util.Map;
  */
 public class MapperProxy<T> implements InvocationHandler {
     private final SqlSession sqlSession;
-//    private Map<String,String> sqlSession;
     private final Class<T> mapperInterface;
     //缓存MappedMethod
     private Map<Method,MapperMethod> cachedMethod;

@@ -36,7 +36,7 @@ public class PooledDataSource implements DataSource {
 
     public PooledDataSource(String driver,String url,String userName,String passWord) {
         this.dataSource = new UnpooledDataSource(driver,url,userName,passWord);
-        this.expectedConnectionTypeCode = this.assembleConnectionTypeCode(url,userName,passWord);
+        this.expectedConnectionTypeCode = this.assembleConnectionTypeCode(this.dataSource.getUrl(),this.dataSource.getUsername(),this.getDataSource().getPassword());
     }
 
     @Override

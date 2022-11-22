@@ -43,6 +43,12 @@ public class SimpleExecutor extends BaseExecutor{
             return handler.query(statement,resultHandler);
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                transaction.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return null;
     }
@@ -64,6 +70,12 @@ public class SimpleExecutor extends BaseExecutor{
             commit(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            try {
+                transaction.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return res;
     }
